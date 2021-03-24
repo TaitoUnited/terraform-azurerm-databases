@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+provider "azurerm" {
+  features {}
+}
+
 locals {
   postgresqlClusters = (
     var.postgresql_clusters != null

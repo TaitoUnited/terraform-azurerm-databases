@@ -74,5 +74,4 @@ resource "azurerm_mysql_virtual_network_rule" "database" {
   resource_group_name                  = var.resource_group_name
   server_name                          = each.value.name
   subnet_id                            = var.subnet_id
-  ignore_missing_vnet_service_endpoint = true
 }
