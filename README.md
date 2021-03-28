@@ -16,6 +16,9 @@ module "databases" {
 
   postgresql_clusters = yamldecode(file("${path.root}/../infra.yaml"))["postgresqlClusters"]
   mysql_clusters      = yamldecode(file("${path.root}/../infra.yaml"))["mysqlClusters"]
+
+  # TODO: implement long-term backups
+  long_term_backup_bucket = "my-backup"
 }
 ```
 
@@ -69,6 +72,7 @@ Combine with the following modules to get a complete infrastructure defined by Y
 - [Admin](https://registry.terraform.io/modules/TaitoUnited/admin/azurerm)
 - [DNS](https://registry.terraform.io/modules/TaitoUnited/dns/azurerm)
 - [Network](https://registry.terraform.io/modules/TaitoUnited/network/azurerm)
+- [Compute](https://registry.terraform.io/modules/TaitoUnited/compute/azurerm)
 - [Kubernetes](https://registry.terraform.io/modules/TaitoUnited/kubernetes/azurerm)
 - [Databases](https://registry.terraform.io/modules/TaitoUnited/databases/azurerm)
 - [Storage](https://registry.terraform.io/modules/TaitoUnited/storage/azurerm)
