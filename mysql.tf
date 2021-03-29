@@ -38,7 +38,7 @@ resource "azurerm_mysql_server" "database" {
   administrator_login               = try(each.value.adminUsername, "root")
   administrator_login_password      = random_string.mysql_admin_password[each.key].result
 
-  storage_mb                        = try(each.value.storageMb, 20)
+  storage_mb                        = try(each.value.storageMb, 20480)
   auto_grow_enabled                 = try(each.value.autoGrowEnabled, true)
   backup_retention_days             = try(each.value.backupRetentionDays, 30)
   geo_redundant_backup_enabled      = try(each.value.geoRedundantBackupEnabled, true)

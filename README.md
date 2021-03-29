@@ -30,7 +30,7 @@ postgresqlClusters:
     location: northeurope
     version: "11"
     skuName: GP_Gen5_2
-    storageMb: 20
+    storageMb: 20480
     autoGrowEnabled: true
     backupRetentionDays: 30
     geoRedundantBackupEnabled: true
@@ -48,7 +48,7 @@ mysqlClusters:
     location: northeurope
     version: "8.0"
     skuName: GP_Gen5_2
-    storageMb: 20
+    storageMb: 20480
     autoGrowEnabled: true
     backupRetentionDays: 30
     geoRedundantBackupEnabled: true
