@@ -18,16 +18,16 @@ variable "resource_group_name" {
   type = string
 }
 
+variable "virtual_network_id" {
+  type        = string
+  default     = ""
+  description = "Private network id for databases"
+}
+
 variable "subnet_id" {
   type        = string
   default     = ""
   description = "Private network subnet id for databases"
-}
-
-variable "private_dns_zone_ids" {
-  type = list(string)
-  default = []
-  description = "Private DNS zone ids"
 }
 
 variable "postgresql_clusters" {

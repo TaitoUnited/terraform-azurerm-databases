@@ -12,8 +12,8 @@ module "databases" {
   version              = "1.0.0"
 
   resource_group_name  = "my-infrastructure"
+  virtual_network_id   = module.network.virtual_network_id
   subnet_id            = module.network.internal_subnet_id
-  private_dns_zone_ids = [ module.network.private_dns_zone_id ]
 
   postgresql_clusters  = yamldecode(file("${path.root}/../infra.yaml"))["postgresqlClusters"]
   mysql_clusters       = yamldecode(file("${path.root}/../infra.yaml"))["mysqlClusters"]
