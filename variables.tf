@@ -20,13 +20,11 @@ variable "resource_group_name" {
 
 variable "virtual_network_id" {
   type        = string
-  default     = ""
   description = "Private network id for databases"
 }
 
 variable "subnet_id" {
   type        = string
-  default     = ""
   description = "Private network subnet id for databases"
 }
 
