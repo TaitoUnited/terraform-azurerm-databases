@@ -27,19 +27,22 @@ variable "subnet_id" {
 variable "postgresql_clusters" {
   type = list(object({
     name = string
-    region = string
-    zone = string
+    location = string
     version = string
-    tier = string
-    maintenanceDay = number
-    maintenanceHour = number
-    backupStartTime = string
-    pointInTimeRecoveryEnabled = bool
-    highAvailabilityEnabled = bool
-    publicIpEnabled = bool
-    authorizedNetworks = list(string)
-    flags = any
-    adminUsername = string
+    skuName = string
+    storageMb = number
+    autoGrowEnabled = bool
+    backupRetentionDays = optional(number)
+    geoRedundantBackupEnabled = optional(bool)
+    infrastructureEncryptionEnabled = optional(bool)
+    publicNetworkAccessEnabled = optional(bool)
+    sslEnforcementEnabled = optional(bool)
+    sslMinimalTlsVersionEnforced = optional(string)
+    authorizedNetworks = optional(list(object({
+      start = string
+      end = string
+    })))
+    adminUsername = optional(string)
   }))
   default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
@@ -48,19 +51,22 @@ variable "postgresql_clusters" {
 variable "mysql_clusters" {
   type = list(object({
     name = string
-    region = string
-    zone = string
+    location = string
     version = string
-    tier = string
-    maintenanceDay = number
-    maintenanceHour = number
-    backupStartTime = string
-    pointInTimeRecoveryEnabled = bool
-    highAvailabilityEnabled = bool
-    publicIpEnabled = bool
-    authorizedNetworks = list(string)
-    # flags = any
-    adminUsername = string
+    skuName = string
+    storageMb = number
+    autoGrowEnabled = bool
+    backupRetentionDays = optional(number)
+    geoRedundantBackupEnabled = optional(bool)
+    infrastructureEncryptionEnabled = optional(bool)
+    publicNetworkAccessEnabled = optional(bool)
+    sslEnforcementEnabled = optional(bool)
+    sslMinimalTlsVersionEnforced = optional(string)
+    authorizedNetworks = optional(list(object({
+      start = string
+      end = string
+    })))
+    adminUsername = optional(string)
   }))
   default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."

@@ -35,18 +35,18 @@ resource "azurerm_mysql_server" "database" {
   version             = each.value.version
   sku_name            = each.value.skuName
 
-  administrator_login               = each.value.adminUsername
+  administrator_login               = try(each.value.adminUsername, "root")
   administrator_login_password      = random_string.mysql_admin_password[each.key].result
 
-  storage_mb                        = each.value.storageMb
-  auto_grow_enabled                 = each.value.autoGrowEnabled
-  backup_retention_days             = each.value.backupRetentionDays
-  geo_redundant_backup_enabled      = each.value.geoRedundantBackupEnabled
-  infrastructure_encryption_enabled = each.value.infrastructureEncryptionEnabled
+  storage_mb                        = try(each.value.storageMb, 20)
+  auto_grow_enabled                 = try(each.value.autoGrowEnabled, true)
+  backup_retention_days             = try(each.value.backupRetentionDays, 30)
+  geo_redundant_backup_enabled      = try(each.value.geoRedundantBackupEnabled, true)
+  infrastructure_encryption_enabled = try(each.value.infrastructureEncryptionEnabled, false)
 
-  public_network_access_enabled     = each.value.publicNetworkAccessEnabled
-  ssl_enforcement_enabled           = each.value.sslEnforcementEnabled
-  ssl_minimal_tls_version_enforced  = each.value.sslMinimalTlsVersionEnforced
+  public_network_access_enabled     = try(each.value.publicNetworkAccessEnabled, false)
+  ssl_enforcement_enabled           = try(each.value.sslEnforcementEnabled, true)
+  ssl_minimal_tls_version_enforced  = try(each.value.sslMinimalTlsVersionEnforced, "TLS1_2")
 
   # TODO: threat_detection_policy
 
@@ -55,10 +55,10 @@ resource "azurerm_mysql_server" "database" {
   }
 }
 
-/* TODO: Open postgres firewall also for some external addresses
+/* TODO: Open mysql firewall also for some external addresses
 resource "azurerm_sql_firewall_rule" "mysql_external_access" {
   for_each            = {for item in local.mysqlClusterAuthorizedNetworks: item.name => item}
-  name                = "${each.value.name}-postgres-external-access"
+  name                = "${each.value.name}-external-access"
   resource_group_name = var.resource_group_name
 
   server_name         = each.value.name
