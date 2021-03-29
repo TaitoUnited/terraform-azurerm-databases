@@ -24,6 +24,12 @@ variable "subnet_id" {
   description = "Private network subnet id for databases"
 }
 
+variable "private_dns_zone_ids" {
+  type = list(string)
+  default = []
+  description = "Private DNS zone ids"
+}
+
 variable "postgresql_clusters" {
   type = list(object({
     name = string

@@ -15,11 +15,33 @@
  */
 
 output "postgresql_hosts" {
-  description = "Postgres host"
-  value       = azurerm_postgresql_server.database[*].fqdn
+  description = "Postgres hosts"
+  value       = [ "TODO" ] # azurerm_private_endpoint.postgresql[*].custom_dns_configs[0].fqdn
 }
 
 output "mysql_hosts" {
-  description = "Postgres host"
-  value       = azurerm_mysql_server.database[*].fqdn
+  description = "MySQL hosts"
+  value       = [ "TODO" ] # azurerm_private_endpoint.mysql[*].custom_dns_configs[0].fqdn
+}
+
+# ----- TODO: remove ---------
+
+output "postgresql_details" {
+  description = "postgresql_endpoint_details"
+  value       = azurerm_postgresql_server.database[*]
+}
+
+output "mysql_details" {
+  description = "mysql_endpoint_details"
+  value       = azurerm_mysql_server.database[*]
+}
+
+output "postgresql_endpoint_details" {
+  description = "postgresql_endpoint_details"
+  value       = azurerm_private_endpoint.postgresql[*]
+}
+
+output "mysql_endpoint_details" {
+  description = "mysql_endpoint_details"
+  value       = azurerm_private_endpoint.mysql[*]
 }

@@ -55,6 +55,27 @@ resource "azurerm_mysql_server" "database" {
   }
 }
 
+resource "azurerm_private_endpoint" "mysql" {
+  for_each            = {for item in local.mysqlClusters: item.name => item}
+
+  name                = "${each.value.name}-endpoint"
+  location            = each.value.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.subnet_id
+
+  private_service_connection {
+    name                           = "${each.value.name}-privateserviceconnection"
+    private_connection_resource_id = azurerm_mysql_server.database[each.key].id
+    subresource_names              = [ "mysqlServer" ]
+    is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                  = "${each.value.name}-dns-group"
+    private_dns_zone_ids  = var.private_dns_zone_ids
+  }  
+}
+
 /* TODO: Open mysql firewall also for some external addresses
 resource "azurerm_sql_firewall_rule" "mysql_external_access" {
   for_each            = {for item in local.mysqlClusterAuthorizedNetworks: item.name => item}
@@ -67,6 +88,7 @@ resource "azurerm_sql_firewall_rule" "mysql_external_access" {
 }
 */
 
+/* TODO: no longer required?
 resource "azurerm_mysql_virtual_network_rule" "database" {
   for_each                             = {for item in local.mysqlClusters: item.name => item}
 
@@ -75,3 +97,4 @@ resource "azurerm_mysql_virtual_network_rule" "database" {
   server_name                          = each.value.name
   subnet_id                            = var.subnet_id
 }
+*/

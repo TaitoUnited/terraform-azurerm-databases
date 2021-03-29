@@ -55,6 +55,27 @@ resource "azurerm_postgresql_server" "database" {
   }
 }
 
+resource "azurerm_private_endpoint" "postgresql" {
+  for_each            = {for item in local.postgresqlClusters: item.name => item}
+
+  name                = "${each.value.name}-endpoint"
+  location            = each.value.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.subnet_id
+
+  private_service_connection {
+    name                           = "${each.value.name}-privateserviceconnection"
+    private_connection_resource_id = azurerm_postgresql_server.database[each.key].id
+    subresource_names              = [ "postgresqlServer" ]
+    is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                  = "${each.value.name}-dns-group"
+    private_dns_zone_ids  = var.private_dns_zone_ids
+  }
+}
+
 /* TODO: Open postgres firewall also for some external addresses
 resource "azurerm_sql_firewall_rule" "postgres_external_access" {
   for_each            = {for item in local.postgresqlClusterAuthorizedNetworks: item.name => item}
@@ -67,6 +88,7 @@ resource "azurerm_sql_firewall_rule" "postgres_external_access" {
 }
 */
 
+/* TODO: no longer required?
 resource "azurerm_postgresql_virtual_network_rule" "database" {
   for_each                             = {for item in local.postgresqlClusters: item.name => item}
 
@@ -76,3 +98,4 @@ resource "azurerm_postgresql_virtual_network_rule" "database" {
   subnet_id                            = var.subnet_id
   ignore_missing_vnet_service_endpoint = true
 }
+*/
