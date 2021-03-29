@@ -55,6 +55,7 @@ resource "azurerm_mysql_server" "database" {
   }
 }
 
+/* TODO: not required?
 resource "azurerm_private_dns_zone" "mysql" {
   count                 = length(local.mysqlClusters) > 0 ? 1 : 0
 
@@ -71,6 +72,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "mysql" {
   virtual_network_id    = var.virtual_network_id
   registration_enabled  = true
 }
+*/
 
 resource "azurerm_private_endpoint" "mysql" {
   for_each            = {for item in local.mysqlClusters: item.name => item}
@@ -87,10 +89,12 @@ resource "azurerm_private_endpoint" "mysql" {
     is_manual_connection           = false
   }
 
+  /* TODO: not required?
   private_dns_zone_group {
     name                  = "${each.value.name}-dns-group"
     private_dns_zone_ids  = [ azurerm_private_dns_zone.mysql[0].id ]
   }
+  */
 }
 
 /* TODO: Open mysql firewall also for some external addresses

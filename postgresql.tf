@@ -55,6 +55,7 @@ resource "azurerm_postgresql_server" "database" {
   }
 }
 
+/* TODO: not required?
 resource "azurerm_private_dns_zone" "postgresql" {
   count                 = length(local.postgresqlClusters) > 0 ? 1 : 0
 
@@ -71,6 +72,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgresql" {
   virtual_network_id    = var.virtual_network_id
   registration_enabled  = true
 }
+*/
 
 resource "azurerm_private_endpoint" "postgresql" {
   for_each            = {for item in local.postgresqlClusters: item.name => item}
@@ -87,10 +89,12 @@ resource "azurerm_private_endpoint" "postgresql" {
     is_manual_connection           = false
   }
 
+  /* TODO: not required?
   private_dns_zone_group {
     name                  = "${each.value.name}-dns-group"
     private_dns_zone_ids  = [ azurerm_private_dns_zone.postgresql[0].id ]
   }
+  */
 }
 
 /* TODO: Open postgres firewall also for some external addresses

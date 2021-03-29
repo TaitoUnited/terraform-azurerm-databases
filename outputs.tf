@@ -36,6 +36,7 @@ output "mysql_details" {
   value       = azurerm_mysql_server.database[*]
 }
 
+/*
 output "postgresql_endpoint_details" {
   description = "postgresql_endpoint_details"
   value       = azurerm_private_endpoint.postgresql[*]
@@ -45,3 +46,4 @@ output "mysql_endpoint_details" {
   description = "mysql_endpoint_details"
   value       = azurerm_private_endpoint.mysql[*]
 }
+*/
