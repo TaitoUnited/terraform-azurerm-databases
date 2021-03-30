@@ -55,7 +55,7 @@ resource "azurerm_mysql_server" "database" {
   }
 }
 
-/* TODO: not required?
+/* TODO: enable private DNS
 resource "azurerm_private_dns_zone" "mysql" {
   count                 = length(local.mysqlClusters) > 0 ? 1 : 0
 
@@ -89,7 +89,7 @@ resource "azurerm_private_endpoint" "mysql" {
     is_manual_connection           = false
   }
 
-  /* TODO: not required?
+  /* TODO: enable private DNS
   private_dns_zone_group {
     name                  = "${each.value.name}-dns-group"
     private_dns_zone_ids  = [ azurerm_private_dns_zone.mysql[0].id ]

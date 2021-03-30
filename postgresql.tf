@@ -55,7 +55,7 @@ resource "azurerm_postgresql_server" "database" {
   }
 }
 
-/* TODO: not required?
+/* TODO: enable private DNS
 resource "azurerm_private_dns_zone" "postgresql" {
   count                 = length(local.postgresqlClusters) > 0 ? 1 : 0
 
@@ -89,7 +89,7 @@ resource "azurerm_private_endpoint" "postgresql" {
     is_manual_connection           = false
   }
 
-  /* TODO: not required?
+  /* TODO: enable private DNS
   private_dns_zone_group {
     name                  = "${each.value.name}-dns-group"
     private_dns_zone_ids  = [ azurerm_private_dns_zone.postgresql[0].id ]

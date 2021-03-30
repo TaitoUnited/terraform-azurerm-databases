@@ -15,35 +15,25 @@
  */
 
 output "postgresql_hosts" {
-  description = "Postgres hosts"
-  value       = [ "TODO" ] # azurerm_private_endpoint.postgresql[*].custom_dns_configs[0].fqdn
+  description = "PostgreSQL hosts"
+  value       = values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address
+  # TODO: enable private DNS:
+  # value       = values(azurerm_private_endpoint.postgresql)[*].custom_dns_configs[0].fqdn
 }
 
 output "mysql_hosts" {
   description = "MySQL hosts"
-  value       = [ "TODO" ] # azurerm_private_endpoint.mysql[*].custom_dns_configs[0].fqdn
+  value       = values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address
+  # TODO: enable private DNS:
+  # value       = values(azurerm_private_endpoint.mysql)[*].custom_dns_configs[0].fqdn
 }
 
-# ----- TODO: remove ---------
-
-output "postgresql_details" {
-  description = "postgresql_endpoint_details"
-  value       = azurerm_postgresql_server.database[*]
+output "postgresql_ip_addresses" {
+  description = "PostgreSQL IP addresses"
+  value       = values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address
 }
 
-output "mysql_details" {
-  description = "mysql_endpoint_details"
-  value       = azurerm_mysql_server.database[*]
+output "mysql_ip_addresses" {
+  description = "MySQL IP addresses"
+  value       = values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address
 }
-
-/*
-output "postgresql_endpoint_details" {
-  description = "postgresql_endpoint_details"
-  value       = azurerm_private_endpoint.postgresql[*]
-}
-
-output "mysql_endpoint_details" {
-  description = "mysql_endpoint_details"
-  value       = azurerm_private_endpoint.mysql[*]
-}
-*/
