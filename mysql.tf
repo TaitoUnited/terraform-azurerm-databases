@@ -35,18 +35,18 @@ resource "azurerm_mysql_server" "database" {
   version             = each.value.version
   sku_name            = each.value.skuName
 
-  administrator_login               = try(each.value.adminUsername, "root")
+  administrator_login               = coalesce(each.value.adminUsername, "root")
   administrator_login_password      = random_string.mysql_admin_password[each.key].result
 
-  storage_mb                        = try(each.value.storageMb, 20480)
-  auto_grow_enabled                 = try(each.value.autoGrowEnabled, true)
-  backup_retention_days             = try(each.value.backupRetentionDays, 30)
-  geo_redundant_backup_enabled      = try(each.value.geoRedundantBackupEnabled, true)
-  infrastructure_encryption_enabled = try(each.value.infrastructureEncryptionEnabled, false)
+  storage_mb                        = coalesce(each.value.storageMb, 20480)
+  auto_grow_enabled                 = coalesce(each.value.autoGrowEnabled, true)
+  backup_retention_days             = coalesce(each.value.backupRetentionDays, 30)
+  geo_redundant_backup_enabled      = coalesce(each.value.geoRedundantBackupEnabled, true)
+  infrastructure_encryption_enabled = coalesce(each.value.infrastructureEncryptionEnabled, false)
 
-  public_network_access_enabled     = try(each.value.publicNetworkAccessEnabled, false)
-  ssl_enforcement_enabled           = try(each.value.sslEnforcementEnabled, true)
-  ssl_minimal_tls_version_enforced  = try(each.value.sslMinimalTlsVersionEnforced, "TLS1_2")
+  public_network_access_enabled     = coalesce(each.value.publicNetworkAccessEnabled, false)
+  ssl_enforcement_enabled           = coalesce(each.value.sslEnforcementEnabled, true)
+  ssl_minimal_tls_version_enforced  = coalesce(each.value.sslMinimalTlsVersionEnforced, "TLS1_2")
 
   # TODO: threat_detection_policy
 
