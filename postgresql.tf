@@ -18,7 +18,7 @@ resource "random_string" "postgresql_admin_password" {
   for_each            = {for item in local.postgresqlClusters: item.name => item}
 
   length  = 32
-  special = false
+  special = true
   upper   = true
 
   keepers = {
