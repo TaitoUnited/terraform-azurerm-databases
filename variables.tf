@@ -34,6 +34,7 @@ variable "postgresql_clusters" {
     location = string
     version = string
     skuName = string
+    useOldServer = optional(bool)
     storageMb = optional(number)
     autoGrowEnabled = optional(bool)
     backupRetentionDays = optional(number)
@@ -58,6 +59,7 @@ variable "mysql_clusters" {
     location = string
     version = string
     skuName = string
+    useOldServer = optional(bool)
     storageMb = optional(number)
     autoGrowEnabled = optional(bool)
     backupRetentionDays = optional(number)

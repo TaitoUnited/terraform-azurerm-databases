@@ -15,7 +15,7 @@
  */
 
 resource "random_string" "mysql_admin_password" {
-  for_each            = {for item in local.mysqlClusters: item.name => item}
+  for_each            = {for item in local.oldMysqlClusters: item.name => item}
 
   length  = 32
   special = true
@@ -27,7 +27,7 @@ resource "random_string" "mysql_admin_password" {
 }
 
 resource "azurerm_mysql_server" "database" {
-  for_each            = {for item in local.mysqlClusters: item.name => item}
+  for_each            = {for item in local.oldMysqlClusters: item.name => item}
 
   name                = each.value.name
   location            = each.value.location
@@ -57,14 +57,14 @@ resource "azurerm_mysql_server" "database" {
 
 /* TODO: enable private DNS
 resource "azurerm_private_dns_zone" "mysql" {
-  count                 = length(local.mysqlClusters) > 0 ? 1 : 0
+  count                 = length(local.oldMysqlClusters) > 0 ? 1 : 0
 
   name                  = "privatelink.mysql.database.azure.com"
   resource_group_name   = var.resource_group_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "mysql" {
-  count                 = length(local.mysqlClusters) > 0 ? 1 : 0
+  count                 = length(local.oldMysqlClusters) > 0 ? 1 : 0
 
   name                  = "${var.resource_group_name}-mysql"
   resource_group_name   = var.resource_group_name
@@ -75,7 +75,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "mysql" {
 */
 
 resource "azurerm_private_endpoint" "mysql" {
-  for_each            = {for item in local.mysqlClusters: item.name => item}
+  for_each            = {for item in local.oldMysqlClusters: item.name => item}
 
   name                = "${each.value.name}-endpoint"
   location            = each.value.location
@@ -111,7 +111,7 @@ resource "azurerm_sql_firewall_rule" "mysql_external_access" {
 
 /* TODO: no longer required?
 resource "azurerm_mysql_virtual_network_rule" "database" {
-  for_each                             = {for item in local.mysqlClusters: item.name => item}
+  for_each                             = {for item in local.oldMysqlClusters: item.name => item}
 
   name                                 = "${each.value.name}-vnet-rule"
   resource_group_name                  = var.resource_group_name

@@ -19,15 +19,28 @@ provider "azurerm" {
 }
 
 locals {
-  postgresqlClusters = (
-    var.postgresql_clusters != null
-    ? var.postgresql_clusters
-    : []
-  )
+  postgresqlClusters = [
+    for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
+      postgresql_cluster
+    if postgresql_cluster.useOldServer != "true"
+  ]
 
-  mysqlClusters = (
-    var.mysql_clusters != null
-    ? var.mysql_clusters
-    : []
-  )
+  mysqlClusters = [
+    for mysql_cluster in coalesce(try(var.mysql_clusters, []), []):
+      mysql_cluster
+    if mysql_cluster.useOldServer != "true"
+  ]
+
+  oldPostgresqlClusters = [
+    for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
+      postgresql_cluster
+    if postgresql_cluster.useOldServer != "true"
+  ]
+
+  oldMysqlClusters = [
+    for mysql_cluster in coalesce(try(var.mysql_clusters, []), []):
+      mysql_cluster
+    if mysql_cluster.useOldServer != "true"
+  ]
+
 }

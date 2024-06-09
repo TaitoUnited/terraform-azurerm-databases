@@ -15,7 +15,7 @@
  */
 
 resource "random_string" "postgresql_admin_password" {
-  for_each            = {for item in local.postgresqlClusters: item.name => item}
+  for_each            = {for item in local.oldPostgresqlClusters: item.name => item}
 
   length  = 32
   special = true
@@ -27,7 +27,7 @@ resource "random_string" "postgresql_admin_password" {
 }
 
 resource "azurerm_postgresql_server" "database" {
-  for_each            = {for item in local.postgresqlClusters: item.name => item}
+  for_each            = {for item in local.oldPostgresqlClusters: item.name => item}
 
   name                = each.value.name
   location            = each.value.location
@@ -57,14 +57,14 @@ resource "azurerm_postgresql_server" "database" {
 
 /* TODO: enable private DNS
 resource "azurerm_private_dns_zone" "postgresql" {
-  count                 = length(local.postgresqlClusters) > 0 ? 1 : 0
+  count                 = length(local.oldPostgresqlClusters) > 0 ? 1 : 0
 
   name                  = "privatelink.postgres.database.azure.com"
   resource_group_name   = var.resource_group_name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "postgresql" {
-  count                 = length(local.postgresqlClusters) > 0 ? 1 : 0
+  count                 = length(local.oldPostgresqlClusters) > 0 ? 1 : 0
 
   name                  = "${var.resource_group_name}-postgresql"
   resource_group_name   = var.resource_group_name
@@ -75,7 +75,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgresql" {
 */
 
 resource "azurerm_private_endpoint" "postgresql" {
-  for_each            = {for item in local.postgresqlClusters: item.name => item}
+  for_each            = {for item in local.oldPostgresqlClusters: item.name => item}
 
   name                = "${each.value.name}-endpoint"
   location            = each.value.location
@@ -111,7 +111,7 @@ resource "azurerm_sql_firewall_rule" "postgres_external_access" {
 
 /* TODO: no longer required?
 resource "azurerm_postgresql_virtual_network_rule" "database" {
-  for_each                             = {for item in local.postgresqlClusters: item.name => item}
+  for_each                             = {for item in local.oldPostgresqlClusters: item.name => item}
 
   name                                 = "${each.value.name}-vnet-rule"
   resource_group_name                  = var.resource_group_name
