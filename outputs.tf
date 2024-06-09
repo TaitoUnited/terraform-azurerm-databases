@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Taito United
+ * Copyright 2024 Taito United
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,36 @@
 
 output "postgresql_hosts" {
   description = "PostgreSQL hosts"
-  value       = values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address
+  value       = concat(
+    values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address,
+    values(azurerm_private_endpoint.flexible_postgresql)[*].private_service_connection[0].private_ip_address
+  )
   # TODO: enable private DNS:
   # value       = values(azurerm_private_endpoint.postgresql)[*].custom_dns_configs[0].fqdn
 }
 
 output "mysql_hosts" {
   description = "MySQL hosts"
-  value       = values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address
+  value       = concat(
+    values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address,
+    values(azurerm_private_endpoint.flexible_mysql)[*].private_service_connection[0].private_ip_address
+  )
   # TODO: enable private DNS:
   # value       = values(azurerm_private_endpoint.mysql)[*].custom_dns_configs[0].fqdn
 }
 
 output "postgresql_ip_addresses" {
   description = "PostgreSQL IP addresses"
-  value       = values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address
+  value       = concat(
+    values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address,
+    values(azurerm_private_endpoint.flexible_postgresql)[*].private_service_connection[0].private_ip_address,
+  )
 }
 
 output "mysql_ip_addresses" {
   description = "MySQL IP addresses"
-  value       = values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address
+  value       = concat(
+    values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address,
+    values(azurerm_private_endpoint.flexible_mysql)[*].private_service_connection[0].private_ip_address
+  )
 }

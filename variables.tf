@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Taito United
+ * Copyright 2024 Taito United
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,20 +34,22 @@ variable "postgresql_clusters" {
     location = string
     version = string
     skuName = string
-    useOldServer = optional(bool)
-    storageMb = optional(number)
     autoGrowEnabled = optional(bool)
     backupRetentionDays = optional(number)
     geoRedundantBackupEnabled = optional(bool)
-    infrastructureEncryptionEnabled = optional(bool)
     publicNetworkAccessEnabled = optional(bool)
-    sslEnforcementEnabled = optional(bool)
-    sslMinimalTlsVersionEnforced = optional(string)
     authorizedNetworks = optional(list(object({
       start = string
       end = string
     })))
     adminUsername = optional(string)
+
+    # For old non-flexible server only
+    useOldServer = optional(bool)
+    storageMb = optional(number)
+    infrastructureEncryptionEnabled = optional(bool)
+    sslEnforcementEnabled = optional(bool)
+    sslMinimalTlsVersionEnforced = optional(string)
   }))
   default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
@@ -59,20 +61,22 @@ variable "mysql_clusters" {
     location = string
     version = string
     skuName = string
-    useOldServer = optional(bool)
-    storageMb = optional(number)
     autoGrowEnabled = optional(bool)
     backupRetentionDays = optional(number)
     geoRedundantBackupEnabled = optional(bool)
-    infrastructureEncryptionEnabled = optional(bool)
     publicNetworkAccessEnabled = optional(bool)
-    sslEnforcementEnabled = optional(bool)
-    sslMinimalTlsVersionEnforced = optional(string)
     authorizedNetworks = optional(list(object({
       start = string
       end = string
     })))
     adminUsername = optional(string)
+
+    # For old non-flexible server only
+    useOldServer = optional(bool)
+    storageMb = optional(number)
+    infrastructureEncryptionEnabled = optional(bool)
+    sslEnforcementEnabled = optional(bool)
+    sslMinimalTlsVersionEnforced = optional(string)
   }))
   default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."

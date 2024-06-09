@@ -29,16 +29,12 @@ Example YAML:
 postgresqlClusters:
   - name: my-common-postgres
     location: northeurope
-    version: "11"
+    version: "16"
     skuName: GP_Gen5_2
-    storageMb: 20480
     autoGrowEnabled: true
     backupRetentionDays: 30
     geoRedundantBackupEnabled: true
-    infrastructureEncryptionEnabled: false
     publicNetworkAccessEnabled: false
-    sslEnforcementEnabled: true
-    sslMinimalTlsVersionEnforced: TLS1_2
     authorizedNetworks:
       - start: 127.127.127.10
         end: 127.127.127.20
@@ -49,14 +45,10 @@ mysqlClusters:
     location: northeurope
     version: "8.0"
     skuName: GP_Gen5_2
-    storageMb: 20480
     autoGrowEnabled: true
     backupRetentionDays: 30
     geoRedundantBackupEnabled: true
-    infrastructureEncryptionEnabled: false
     publicNetworkAccessEnabled: false
-    sslEnforcementEnabled: true
-    sslMinimalTlsVersionEnforced: TLS1_2
     authorizedNetworks:
       - start: 127.127.127.10
         end: 127.127.127.20

@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Taito United
+ * Copyright 2024 Taito United
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,31 +48,10 @@ resource "azurerm_postgresql_server" "database" {
   ssl_enforcement_enabled           = coalesce(each.value.sslEnforcementEnabled, true)
   ssl_minimal_tls_version_enforced  = coalesce(each.value.sslMinimalTlsVersionEnforced, "TLS1_2")
 
-  # TODO: threat_detection_policy
-
   lifecycle {
     prevent_destroy = true
   }
 }
-
-/* TODO: enable private DNS
-resource "azurerm_private_dns_zone" "postgresql" {
-  count                 = length(local.oldPostgresqlClusters) > 0 ? 1 : 0
-
-  name                  = "privatelink.postgres.database.azure.com"
-  resource_group_name   = var.resource_group_name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "postgresql" {
-  count                 = length(local.oldPostgresqlClusters) > 0 ? 1 : 0
-
-  name                  = "${var.resource_group_name}-postgresql"
-  resource_group_name   = var.resource_group_name
-  private_dns_zone_name = azurerm_private_dns_zone.postgresql[0].name
-  virtual_network_id    = var.virtual_network_id
-  registration_enabled  = true
-}
-*/
 
 resource "azurerm_private_endpoint" "postgresql" {
   for_each            = {for item in local.oldPostgresqlClusters: item.name => item}
@@ -89,34 +68,4 @@ resource "azurerm_private_endpoint" "postgresql" {
     is_manual_connection           = false
   }
 
-  /* TODO: enable private DNS
-  private_dns_zone_group {
-    name                  = "${each.value.name}-dns-group"
-    private_dns_zone_ids  = [ azurerm_private_dns_zone.postgresql[0].id ]
-  }
-  */
 }
-
-/* TODO: Open postgres firewall also for some external addresses
-resource "azurerm_sql_firewall_rule" "postgres_external_access" {
-  for_each            = {for item in local.postgresqlClusterAuthorizedNetworks: item.name => item}
-  name                = "${each.value.name}-external-access"
-  resource_group_name = var.resource_group_name
-
-  server_name         = each.value.name
-  start_ip_address    = each.value.startIpAddress
-  end_ip_address      = each.value.endIpAddress
-}
-*/
-
-/* TODO: no longer required?
-resource "azurerm_postgresql_virtual_network_rule" "database" {
-  for_each                             = {for item in local.oldPostgresqlClusters: item.name => item}
-
-  name                                 = "${each.value.name}-vnet-rule"
-  resource_group_name                  = var.resource_group_name
-  server_name                          = each.value.name
-  subnet_id                            = var.subnet_id
-  ignore_missing_vnet_service_endpoint = true
-}
-*/
