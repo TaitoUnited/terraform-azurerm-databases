@@ -26,6 +26,13 @@ module "databases" {
 Example YAML:
 
 ```
+databaseBackupVault:
+  enabled: true
+  location: northeurope
+  redundancy: LocallyRedundant
+  retentionDurationInDays: 14
+  softDelete: On
+
 postgresqlClusters:
   - name: my-common-postgres
     location: northeurope
@@ -34,6 +41,11 @@ postgresqlClusters:
     autoGrowEnabled: true
     backupRetentionDays: 30
     geoRedundantBackupEnabled: true
+    # Schedule in ISO 8601 formatted intervals (R = repeating, P1W = weekly)
+    vaultBackupSchedule:
+      - R/2024-06-01T02:00:00+00:00/P1W
+    # Retention in ISO 8601 formatted durations (P4M = 4 months)
+    vaultBackupRetention: P4M
     publicNetworkAccessEnabled: false
     authorizedNetworks:
       - start: 127.127.127.10

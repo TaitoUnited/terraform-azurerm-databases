@@ -28,6 +28,21 @@ variable "subnet_id" {
   description = "Private network subnet id for databases"
 }
 
+variable "databaseBackupVault" {
+  type = object({
+    enabled = bool
+    location = string
+    redundancy = optional(string)
+    retentionDurationInDays = optional(number)
+    softDelete = optional(string)
+  })
+  default = {
+    enabled = false
+    location = "West Europe"
+  }
+  description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
+}
+
 variable "postgresql_clusters" {
   type = list(object({
     name = string
@@ -37,6 +52,8 @@ variable "postgresql_clusters" {
     autoGrowEnabled = optional(bool)
     backupRetentionDays = optional(number)
     geoRedundantBackupEnabled = optional(bool)
+    vaultBackupSchedule = optional(list(string))
+    vaultBackupRetention = optional(string)
     publicNetworkAccessEnabled = optional(bool)
     authorizedNetworks = optional(list(object({
       start = string

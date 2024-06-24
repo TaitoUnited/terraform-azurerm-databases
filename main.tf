@@ -18,11 +18,21 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_resource_group" "resource_group" {
+  name = var.resource_group_name
+}
+
 locals {
   postgresqlClusters = [
     for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
       postgresql_cluster
     if postgresql_cluster.useOldServer != "true"
+  ]
+
+  postgresqlClustersWithVaultBackup = [
+    for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
+      postgresql_cluster
+    if postgresql_cluster.useOldServer != "true" && var.databaseBackupVault.enabled && postgresql_cluster.vaultBackupRetention
   ]
 
   mysqlClusters = [
