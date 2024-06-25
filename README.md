@@ -30,8 +30,8 @@ databaseBackupVault:
   enabled: true
   location: northeurope
   redundancy: LocallyRedundant
-  retentionDurationInDays: 14
   softDelete: On
+  softDeleteRetentionDurationInDays: 14
 
 postgresqlClusters:
   - name: my-common-postgres

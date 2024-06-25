@@ -25,8 +25,8 @@ resource "azurerm_data_protection_backup_vault" "databases" {
   datastore_type               = "VaultStore"
 
   redundancy                   = coalesce(var.databaseBackupVault.redundancy, "LocallyRedundant")
-  retention_duration_in_days   = coalesce(var.databaseBackupVault.retentionDurationInDays, 14)
   soft_delete                  = coalesce(var.databaseBackupVault.softDelete, "On")
+  retention_duration_in_days   = coalesce(var.databaseBackupVault.softDeleteRetentionDurationInDays, 14)
 
   identity {
     type = "SystemAssigned"

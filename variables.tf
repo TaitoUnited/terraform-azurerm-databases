@@ -33,8 +33,8 @@ variable "databaseBackupVault" {
     enabled = bool
     location = string
     redundancy = optional(string)
-    retentionDurationInDays = optional(number)
     softDelete = optional(string)
+    softDeleteRetentionDurationInDays = optional(number)
   })
   default = {
     enabled = false
