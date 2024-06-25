@@ -26,31 +26,31 @@ locals {
   postgresqlClusters = [
     for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
       postgresql_cluster
-    if postgresql_cluster.useOldServer != "true"
+    if postgresql_cluster.useOldServer != true
   ]
 
   postgresqlClustersWithVaultBackup = [
     for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
       postgresql_cluster
-    if postgresql_cluster.useOldServer != "true" && var.databaseBackupVault.enabled && postgresql_cluster.vaultBackupRetention
+    if postgresql_cluster.useOldServer != true && var.databaseBackupVault.enabled && postgresql_cluster.vaultBackupRetention
   ]
 
   mysqlClusters = [
     for mysql_cluster in coalesce(try(var.mysql_clusters, []), []):
       mysql_cluster
-    if mysql_cluster.useOldServer != "true"
+    if mysql_cluster.useOldServer != true
   ]
 
   oldPostgresqlClusters = [
     for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
       postgresql_cluster
-    if postgresql_cluster.useOldServer != "true"
+    if postgresql_cluster.useOldServer == true
   ]
 
   oldMysqlClusters = [
     for mysql_cluster in coalesce(try(var.mysql_clusters, []), []):
       mysql_cluster
-    if mysql_cluster.useOldServer != "true"
+    if mysql_cluster.useOldServer == true
   ]
 
 }
