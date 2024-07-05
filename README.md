@@ -50,6 +50,9 @@ postgresqlClusters:
     authorizedNetworks:
       - start: 127.127.127.10
         end: 127.127.127.20
+    extensions:
+      - PGCRYPTO
+      - POSTGIS
     adminUsername: admin
 
 mysqlClusters:

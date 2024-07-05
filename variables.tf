@@ -59,6 +59,7 @@ variable "postgresql_clusters" {
       start = string
       end = string
     })))
+    extensions = optional(list(string))
     adminUsername = optional(string)
 
     # For old non-flexible server only

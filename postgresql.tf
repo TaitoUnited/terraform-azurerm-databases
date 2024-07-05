@@ -36,7 +36,7 @@ resource "azurerm_postgresql_flexible_server" "database" {
   sku_name            = each.value.skuName
 
   administrator_login               = coalesce(each.value.adminUsername, "postgres")
-  administrator_password      = random_string.flexible_postgresql_admin_password[each.key].result
+  administrator_password            = random_string.flexible_postgresql_admin_password[each.key].result
 
   auto_grow_enabled                 = coalesce(each.value.autoGrowEnabled, true)
   backup_retention_days             = coalesce(each.value.backupRetentionDays, 30)
@@ -49,6 +49,14 @@ resource "azurerm_postgresql_flexible_server" "database" {
   lifecycle {
     prevent_destroy = true
   }
+}
+
+resource "azurerm_postgresql_flexible_server_configuration" "extensions" {
+  for_each    = {for item in local.postgresqlClusters: item.name => item}
+
+  server_id   = azurerm_postgresql_flexible_server.database[each.key].id
+  name        = "azure.extensions"
+  value       = join(",", coalesce(each.value.extensions, []))
 }
 
 /* TODO: enable private DNS
