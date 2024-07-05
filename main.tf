@@ -32,7 +32,7 @@ locals {
   postgresqlClustersWithVaultBackup = [
     for postgresql_cluster in coalesce(try(var.postgresql_clusters, []), []):
       postgresql_cluster
-    if postgresql_cluster.useOldServer != true && var.databaseBackupVault.enabled && postgresql_cluster.vaultBackupRetention
+    if postgresql_cluster.useOldServer != true && var.databaseBackupVault.enabled && coalesce(postgresql_cluster.vaultBackupRetention, "") != ""
   ]
 
   mysqlClusters = [
