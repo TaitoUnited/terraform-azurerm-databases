@@ -50,6 +50,9 @@ postgresqlClusters:
     authorizedNetworks:
       - start: 127.127.127.10
         end: 127.127.127.20
+    # TODO: change this into but leave extensions still there as it has already been used
+    # configuration:
+    #   azure.extensions: "PGCRYPTO, POSTGIS"
     extensions:
       - PGCRYPTO
       - POSTGIS

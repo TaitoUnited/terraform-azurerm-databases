@@ -17,7 +17,6 @@
 output "postgresql_hosts" {
   description = "PostgreSQL hosts"
   value       = concat(
-    values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address,
     values(azurerm_private_endpoint.flexible_postgresql)[*].private_service_connection[0].private_ip_address
   )
   # TODO: enable private DNS:
@@ -27,7 +26,6 @@ output "postgresql_hosts" {
 output "mysql_hosts" {
   description = "MySQL hosts"
   value       = concat(
-    values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address,
     values(azurerm_private_endpoint.flexible_mysql)[*].private_service_connection[0].private_ip_address
   )
   # TODO: enable private DNS:
@@ -37,7 +35,6 @@ output "mysql_hosts" {
 output "postgresql_ip_addresses" {
   description = "PostgreSQL IP addresses"
   value       = concat(
-    values(azurerm_private_endpoint.postgresql)[*].private_service_connection[0].private_ip_address,
     values(azurerm_private_endpoint.flexible_postgresql)[*].private_service_connection[0].private_ip_address,
   )
 }
@@ -45,7 +42,6 @@ output "postgresql_ip_addresses" {
 output "mysql_ip_addresses" {
   description = "MySQL IP addresses"
   value       = concat(
-    values(azurerm_private_endpoint.mysql)[*].private_service_connection[0].private_ip_address,
     values(azurerm_private_endpoint.flexible_mysql)[*].private_service_connection[0].private_ip_address
   )
 }
